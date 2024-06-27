@@ -22,7 +22,7 @@ This mod will try to give you ways to do that!
 
 ### Show some affection with heart emotes!
 
-To trigger the heart emote simply press `G`!  
+To trigger the heart emote simply press <kbd>G</kbd>!  
 The key bind can be found along the other multiplayer-related key binds.
 
 ![Show some love!](https://lambdaurora.dev/images/projects/affectionate/affectionate3.gif)
