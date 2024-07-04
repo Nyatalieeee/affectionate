@@ -41,7 +41,7 @@
       },
       {
         "id": "quilted_fabric_api",
-        "versions": ">=9.0.0"
+        "versions": ">=9.0.0-alpha.5+0.96.11"
       },
       {
         "id": "java",
