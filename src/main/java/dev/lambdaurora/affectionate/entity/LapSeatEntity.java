@@ -95,11 +95,6 @@ public class LapSeatEntity extends Entity {
 	}
 
 	@Override
-	public double getMountedHeightOffset() {
-		return 0;
-	}
-
-	@Override
 	public Vec3d updatePassengerForDismount(LivingEntity passenger) {
 		var vec = super.updatePassengerForDismount(passenger);
 
