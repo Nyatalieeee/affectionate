@@ -34,6 +34,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import org.quiltmc.loader.impl.transformer.UnsupportedChasmException;
+import org.quiltmc.loader.impl.transformer.ChasmTransformException;
+import org.quiltmc.loader.impl.QuiltLoaderConfig;
+import org.quiltmc.loader.impl.QuiltLoaderImpl;
+import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
@@ -42,7 +47,6 @@ import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.quiltmc.qsl.resource.loader.api.PackActivationType;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-//import org.quiltmc.qsl.resource.loader.api.ResourcePackActivationType;
 
 public final class Affectionate implements ModInitializer {
 	public static final String NAMESPACE = "affectionate";
