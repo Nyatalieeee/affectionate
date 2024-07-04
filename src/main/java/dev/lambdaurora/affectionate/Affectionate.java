@@ -20,7 +20,6 @@ package dev.lambdaurora.affectionate;
 import dev.lambdaurora.affectionate.entity.AffectionatePlayerEntity;
 import dev.lambdaurora.affectionate.entity.LapSeatEntity;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -37,11 +36,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.entity.extensions.api.QuiltEntityTypeBuilder;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.PlayerLookup;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
+import org.quiltmc.qsl.resource.loader.api.PackActivationType;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
-import org.quiltmc.qsl.resource.loader.api.ResourcePackActivationType;
+//import org.quiltmc.qsl.resource.loader.api.ResourcePackActivationType;
 
 public final class Affectionate implements ModInitializer {
 	public static final String NAMESPACE = "affectionate";
@@ -56,11 +57,11 @@ public final class Affectionate implements ModInitializer {
 
 	/* Entities */
 	public static final EntityType<LapSeatEntity> LAP_SEAT_ENTITY_TYPE = Registry.register(Registries.ENTITY_TYPE, id("lap_seat"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, LapSeatEntity::new)
-					.dimensions(EntityDimensions.fixed(0.f, 0.f))
+			QuiltEntityTypeBuilder.create(SpawnGroup.MISC, LapSeatEntity::new)
+					.setDimensions(EntityDimensions.fixed(0.f, 0.f))
 					.disableSaving()
 					.disableSummon()
-					.trackRangeChunks(10)
+					.maxChunkTrackingRange(10)
 					.build()
 	);
 
@@ -91,21 +92,21 @@ public final class Affectionate implements ModInitializer {
 		});
 
 		ServerPlayNetworking.registerGlobalReceiver(SEND_HEARTS_PACKET, (server, player, handler, buf, responseSender) -> {
-			server.execute(() -> {
-				var affectionatePlayer = (AffectionatePlayerEntity) player;
+            server.execute(() -> {
+                var affectionatePlayer = (AffectionatePlayerEntity) player;
 
-				if (!affectionatePlayer.affectionate$isSendingHeart()) {
-					affectionatePlayer.affectionate$startSendHeart();
+                if (!affectionatePlayer.affectionate$isSendingHeart()) {
+                    affectionatePlayer.affectionate$startSendHeart();
 
-					var newBuf = PacketByteBufs.create();
-					newBuf.writeVarInt(player.getId());
+                    var newBuf = PacketByteBufs.create();
+                    newBuf.writeVarInt(player.getId());
 
-					ServerPlayNetworking.send(PlayerLookup.tracking(player), SEND_HEARTS_PACKET, newBuf);
-				}
-			});
-		});
+                    ServerPlayNetworking.send(PlayerLookup.tracking(player), SEND_HEARTS_PACKET, newBuf);
+                }
+            });
+        });
 
-		ResourceLoader.registerBuiltinResourcePack(id("recursive_sitting"), mod, ResourcePackActivationType.NORMAL,
+		ResourceLoader.registerBuiltinPack(id("recursive_sitting"), mod, PackActivationType.NORMAL,
 				Text.literal("Affectionate").formatted(Formatting.LIGHT_PURPLE)
 						.append(Text.literal(" - ").formatted(Formatting.GRAY))
 						.append(Text.literal("Recursive Lap Sitting").formatted(Formatting.RED))
